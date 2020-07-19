@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "ngrx-admin-3f4ec": {
+      "hosting": {
+        "ngrxAdmin": [
+          "ngrx-admin-3f4ec"
+        ]
+      }
+    }
+  }
+}

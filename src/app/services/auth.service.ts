@@ -3,21 +3,40 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { AngularFireAuth } from '@angular/fire/auth';
 import { map } from 'rxjs/operators';
 import { User } from '../model/user.model';
+import { Store } from '@ngrx/store';
+import { GlobalState } from '../app.reducer';
+import * as authActions from '../auth/auth.actions';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private userSub$: Subscription;
 
   constructor(public auth: AngularFireAuth,
-              private afs: AngularFirestore
+              private afs: AngularFirestore,
+              private store: Store<GlobalState>,
+              private fireStore: AngularFirestore
               ) { }
 
-  showUserInfo(){
+  showUserInfo() {
     this.auth.authState.subscribe(fuser => {
-      console.log(fuser);
-      console.log(fuser ? fuser.uid : 'no user loged in');
-    })
+      if (fuser) {
+        this.userSub$ = this.fireStore.doc(`/user/${fuser.uid}`).valueChanges()
+          .subscribe((firesStoreUser: any) => {
+            const user = User.fromFirebase(firesStoreUser);
+            this.store.dispatch(authActions.setUser({user: user}));
+          });
+      } else {
+        console.log('sdfasdfa');
+
+        //this.store.dispatch(authActions.unSetUser);
+      }
+      //this.userSub$.unsubscribe();
+      // console.log(fuser);
+      // console.log(fuser ? fuser.uid : 'no user loged in');
+    });
   }
 
   crearUsario(name: string, email: string, password: string) {

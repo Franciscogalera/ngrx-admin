@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class AuthService {
   private userSub$: Subscription;
+  private _user: User;
 
   constructor(public auth: AngularFireAuth,
               private afs: AngularFirestore,
@@ -26,6 +27,7 @@ export class AuthService {
         this.userSub$ = this.fireStore.doc(`/user/${fuser.uid}`).valueChanges()
           .subscribe((firesStoreUser: any) => {
             const user = User.fromFirebase(firesStoreUser);
+            this._user = user;
             this.store.dispatch(authActions.setUser({user: user}));
           });
       } else {
@@ -37,6 +39,10 @@ export class AuthService {
       // console.log(fuser);
       // console.log(fuser ? fuser.uid : 'no user loged in');
     });
+  }
+
+  get user() {
+    return this._user;
   }
 
   crearUsario(name: string, email: string, password: string) {

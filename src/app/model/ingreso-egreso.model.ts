@@ -4,6 +4,6 @@ export class IngresoEgreso {
     public description: string,
     public monto: number,
     public tipo: string,
-    // public uid?: string,
+    public uid?: string,
   ){}
 }

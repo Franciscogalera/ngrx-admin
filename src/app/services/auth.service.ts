@@ -6,6 +6,7 @@ import { User } from '../model/user.model';
 import { Store } from '@ngrx/store';
 import { GlobalState } from '../app.reducer';
 import * as authActions from '../auth/auth.actions';
+import * as ioActions from '../income-outcome/income-outcome.actions';
 import { Subscription } from 'rxjs';
 
 @Injectable({
@@ -32,6 +33,7 @@ export class AuthService {
           });
       } else {
         console.log('sdfasdfa');
+        this.store.dispatch(ioActions.unsetItems);
 
         //this.store.dispatch(authActions.unSetUser);
       }

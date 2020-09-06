@@ -25,6 +25,8 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers } from './app.reducer';
+import { OrdenarPipe } from './pipes/ordenar.pipe';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { reducers } from './app.reducer';
     DetailComponent,
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    OrdenarPipe
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ import { reducers } from './app.reducer';
     AngularFirestoreModule,
     AngularFireAuthModule,
     StoreModule.forRoot(reducers),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
